@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ads Story Mobile</title>
+</head>
+<body>
+
+  <div class="video">
+    #%NATIVE_VIDEO_WRAPPER%#
+  </div>
+
+  
+    <section id="header">
+        <img src=[%UploadLogo%] />
+
+        <div>
+            <p>[%Title%]</p>
+            <p>[%LabelAd%]</p>
+        </div>
+    </section>
+
+    <section id="cta-btn">
+        <a href=%%CLICK_URL_UNESC%%[%ClickTroughUrl%] target="blank">
+            [%LabelClickTroughUrl%]
+        </a>
+    </section>
+
+    <div style="display: none;">[%UrlTrackerImpression%]</div>
+
+    <script>
+        let index = 0
+        document.body.addEventListener("touchstart", e => {
+          window.parent.p[%VideoDuration%]ostMessage({ state: "PAUSE", index }, "*")
+        })
+        document.body.addEventListener("touchend", e => {
+          window.parent.postMessage({ state: "RERUN", index }, "*")
+        })
+
+        window.addEventListener("message", event => {
+          	if (!event.data) return
+          
+            switch(event.data.state) {
+                case "CREATED": {
+                    index = event.data.index
+                    window.parent.postMessage({ state: "RUN", index }, "*")
+                    return
+                }
+                default: return
+            }
+        })
+    </script>
+</body>
+</html>
